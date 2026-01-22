@@ -1,4 +1,5 @@
 {
+  "version": "v1",
   "spots": [
     { "id":"ad-001","name":"大稻埕碼頭夜風","district":"大同區","tags":["River","Night view","Walk"],"vibe":"霓虹反射＋河風，適合散步放空","bestTime":"20:30–01:00","notes":"長曝光抓反光；人多時走到河岸邊緣段更安靜。" },
     { "id":"ad-002","name":"象山（較短段觀景平台）","district":"信義區","tags":["Night view","Hike","Photo"],"vibe":"城市心臟上方的光海","bestTime":"19:00–23:30","notes":"帶水、穿好走的鞋；避開週末尖峰更chill。" },
