@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TAIPEI // AFTERDARK — Hidden Chill Spots</title>
+  <meta name="description" content="Cyberpunk single-page HTML app for Taipei chill spots (legal)." />
+  <style>
+    :root{
+      --bg0:#07070a;
+      --bg1:#0b1020;
+      --neonG:#39ff14;
+      --neonP:#b026ff;
+      --warm:#ff8a00;
+      --txt:#e8e8f0;
+      --muted:#a7a7c2;
+      --card:rgba(11,16,32,.62);
+      --stroke:rgba(176,38,255,.35);
+      --glowG: 0 0 18px rgba(57,255,20,.55);
+      --glowP: 0 0 18px rgba(176,38,255,.55);
+      --shadow: 0 10px 30px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(176,38,255,.20), transparent 60%),
+        radial-gradient(1000px 600px at 80% 30%, rgba(57,255,20,.16), transparent 60%),
+        radial-gradient(900px 600px at 50% 90%, rgba(255,138,0,.10), transparent 65%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    .grid::before{
+      content:"";
+      position:fixed; inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mix-blend-mode: overlay;
+      pointer-events:none;
+      opacity:.35;
+    }
+
+    .grid::after{
+      content:"";
+      position:fixed; inset:-20%;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,.18) 3px
+      );
+      pointer-events:none;
+      opacity:.25;
+      transform: translateZ(0);
+      animation: drift 9s linear infinite;
+    }
+    @keyframes drift{
+      0%{transform:translateY(-6%)}
+      100%{transform:translateY(6%)}
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 18px 56px;
+      position:relative;
+    }
+
+    .topbar{
+      display:flex;
+      gap:14px;
+      align-items:flex-end;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      padding:8px 0 18px;
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:260px;
+    }
+
+    .title{
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:22px;
+      line-height:1.1;
+      position:relative;
+      display:inline-block;
+      filter: drop-shadow(var(--glowP));
+    }
+
+    .title .glitch{
+      position:relative;
+      display:inline-block;
+    }
+    .title .glitch::before,
+    .title .glitch::after{
+      content:attr(data-text);
+      position:absolute; left:0; top:0;
+      opacity:.8;
+      clip-path: inset(0 0 0 0);
+      transform:translate(0,0);
+      pointer-events:none;
+    }
+    .title .glitch::before{
+      color:var(--neonG);
+      text-shadow: var(--glowG);
+      animation: glitch1 2.6s infinite linear alternate-reverse;
+    }
+    .title .glitch::after{
+      color:var(--neonP);
+      text-shadow: var(--glowP);
+      animation: glitch2 3.1s infinite linear alternate-reverse;
+    }
+    @keyframes glitch1{
+      0%{clip-path: inset(80% 0 0 0); transform:translate(-1px,-1px)}
+      10%{clip-path: inset(10% 0 70% 0); transform:translate(2px,0)}
+      20%{clip-path: inset(50% 0 20% 0); transform:translate(-2px,1px)}
+      35%{clip-path: inset(0 0 82% 0); transform:translate(1px,-2px)}
+      50%{clip-path: inset(40% 0 40% 0); transform:translate(-1px,2px)}
+      65%{clip-path: inset(78% 0 4% 0); transform:translate(2px,-1px)}
+      80%{clip-path: inset(20% 0 55% 0); transform:translate(-2px,0)}
+      100%{clip-path: inset(60% 0 18% 0); transform:translate(1px,1px)}
+    }
+    @keyframes glitch2{
+      0%{clip-path: inset(0 0 85% 0); transform:translate(1px,1px)}
+      12%{clip-path: inset(65% 0 10% 0); transform:translate(-2px,0)}
+      25%{clip-path: inset(25% 0 55% 0); transform:translate(2px,-1px)}
+      40%{clip-path: inset(55% 0 25% 0); transform:translate(-1px,2px)}
+      55%{clip-path: inset(10% 0 75% 0); transform:translate(1px,-2px)}
+      70%{clip-path: inset(85% 0 0% 0); transform:translate(-2px,1px)}
+      100%{clip-path: inset(35% 0 35% 0); transform:translate(2px,0)}
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.02em;
+      max-width:520px;
+    }
+
+    .pillrow{display:flex; gap:8px; flex-wrap:wrap;}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      box-shadow: inset 0 0 0 1px rgba(176,38,255,.08);
+      font-size:12px; color:var(--muted);
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--neonG); box-shadow: var(--glowG);}
+    .dot.p{background:var(--neonP); box-shadow: var(--glowP)}
+    .dot.w{background:var(--warm); box-shadow:0 0 16px rgba(255,138,0,.45)}
+
+    .panel{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:16px;
+      align-items:start;
+      margin-top:10px;
+    }
+    @media (max-width: 900px){ .panel{grid-template-columns:1fr} }
+
+    .card{
+      background: var(--card);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:0;
+      border-radius: var(--radius);
+      box-shadow: inset 0 0 0 1px rgba(57,255,20,.06), inset 0 0 0 2px rgba(176,38,255,.05);
+      pointer-events:none;
+    }
+
+    .controls{
+      padding:14px;
+      display:grid;
+      grid-template-columns: 1.3fr .7fr .7fr auto;
+      gap:10px;
+      align-items:center;
+    }
+    @media (max-width: 900px){
+      .controls{grid-template-columns:1fr 1fr;}
+      .controls .span2{grid-column:1/-1}
+    }
+
+    input, select{
+      width:100%;
+      padding:11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color: var(--txt);
+      outline:none;
+      box-shadow: inset 0 0 0 1px rgba(176,38,255,.08);
+    }
+    input:focus, select:focus{
+      border-color: rgba(57,255,20,.35);
+      box-shadow: 0 0 0 3px rgba(57,255,20,.12), inset 0 0 0 1px rgba(57,255,20,.10);
+    }
+    select option{background:var(--bg1)}
+
+    .btn{
+      border:none;
+      padding:11px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:.02em;
+      color:var(--txt);
+      background: linear-gradient(90deg, rgba(176,38,255,.55), rgba(57,255,20,.35));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.12), var(--shadow);
+      transition: transform .12s ease, filter .12s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); filter:brightness(1.06)}
+    .btn:active{transform: translateY(0px); filter:brightness(.98)}
+    .btn.secondary{
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+      font-weight:600;
+    }
+
+    .list{
+      padding: 0 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .spot{
+      padding:12px 12px 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .spot:hover{
+      border-color: rgba(176,38,255,.26);
+      box-shadow: 0 0 0 3px rgba(176,38,255,.10);
+    }
+
+    .spotHead{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
+    .spotTitle{font-weight:800; letter-spacing:.02em; margin:0; font-size:15px; line-height:1.2;}
+    .spotMeta{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:4px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tag{
+      padding:3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size:11px;
+    }
+    .tag.g{border-color: rgba(57,255,20,.25); color: rgba(150,255,170,.95)}
+    .tag.p{border-color: rgba(176,38,255,.25); color: rgba(220,170,255,.95)}
+    .tag.w{border-color: rgba(255,138,0,.25); color: rgba(255,200,140,.95)}
+
+    .spotBody{margin-top:10px; color: rgba(232,232,240,.92); font-size:13px; line-height:1.55;}
+    .spotActions{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .miniRow{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+    .miniBtn{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color: var(--txt);
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
+    .miniBtn:hover{border-color: rgba(57,255,20,.25); box-shadow: 0 0 0 3px rgba(57,255,20,.10)}
+    .miniBtn.heart{
+      display:inline-flex; align-items:center; gap:8px;
+      border-color: rgba(176,38,255,.25);
+    }
+    .miniBtn.heart.on{
+      box-shadow: 0 0 0 3px rgba(176,38,255,.12);
+      background: rgba(176,38,255,.14);
+    }
+
+    .pager{
+      padding: 0 14px 16px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+    }
+    .pageBtn{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color: var(--txt);
+      cursor:pointer;
+      font-size:12px;
+      font-weight:800;
+      min-width:38px;
+      text-align:center;
+    }
+    .pageBtn:hover{border-color: rgba(176,38,255,.26); box-shadow: 0 0 0 3px rgba(176,38,255,.10)}
+    .pageBtn.on{
+      background: rgba(57,255,20,.12);
+      border-color: rgba(57,255,20,.35);
+      box-shadow: 0 0 0 3px rgba(57,255,20,.10);
+    }
+    .pageBtn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    .side{padding:14px; display:flex; flex-direction:column; gap:12px;}
+    .stat{
+      padding:12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    .stat h3{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: rgba(232,232,240,.90);
+    }
+    .stat p{margin:0; color: var(--muted); font-size:12px; line-height:1.6;}
+
+    .footer{
+      margin-top:18px;
+      color: rgba(167,167,194,.9);
+      font-size:12px;
+      line-height:1.6;
+      padding: 0 4px;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding:2px 6px;
+      border-radius: 8px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(232,232,240,.92);
+      font-size:11px;
+    }
+
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:99;
+    }
+    .modal{
+      width:min(680px, 96vw);
+      background: rgba(11,16,32,.78);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHead{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .modalHead h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .modalBody{padding:14px}
+    .formGrid{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    @media (max-width: 680px){ .formGrid{grid-template-columns:1fr} }
+
+    textarea{
+      width:100%;
+      min-height: 92px;
+      resize: vertical;
+      padding:11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color: var(--txt);
+      outline:none;
+      box-shadow: inset 0 0 0 1px rgba(176,38,255,.08);
+    }
+    .modalFoot{
+      padding:12px 14px 14px;
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(232,232,240,.92);
+      font-size:12px;
+      display:none;
+      z-index:100;
+      box-shadow: var(--shadow);
+    }
+    a{color:rgba(150,255,170,.92)}
+  </style>
+</head>
+
+<body class="grid">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="title">
+          <span class="glitch" data-text="TAIPEI // AFTERDARK">TAIPEI // AFTERDARK</span>
+        </div>
+        <div class="subtitle">
+          合法的「chill spots」資料庫：冷門河濱夜騎、非熱門夜景點、工業霓虹街拍。可搜尋/篩選/收藏/自訂新增。
+        </div>
+        <div class="pillrow" aria-label="status pills">
+          <div class="pill"><span class="dot"></span> Live filter</div>
+          <div class="pill"><span class="dot p"></span> Shared list (remote JSON)</div>
+          <div class="pill"><span class="dot w"></span> Personal add (local)</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+        <button class="btn secondary" id="btnSync" title="Fetch latest spots.json">Sync</button>
+        <button class="btn secondary" id="btnExport" title="Export your merged spots as JSON">Export</button>
+        <button class="btn secondary" id="btnImport" title="Import a JSON list (local)">Import</button>
+        <button class="btn" id="btnAdd">+ Add spot</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="card">
+        <div class="controls">
+          <input id="q" type="search" placeholder="Search… (name / district / tags / vibe)" autocomplete="off" />
+          <select id="district">
+            <option value="">All districts</option>
+          </select>
+          <select id="tag">
+            <option value="">All tags</option>
+          </select>
+          <button class="btn secondary" id="btnClear" title="Clear filters">Clear</button>
+
+          <div class="span2" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div style="color:var(--muted); font-size:12px;">
+              Tip: <span class="kbd">/</span> focus search · <span class="kbd">F</span> favorites · <span class="kbd">1..9</span> jump pages
+            </div>
+            <div style="color:var(--muted); font-size:12px;">
+              Results <span id="count">0</span> · Page <span id="pageInfo">1/1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="list" id="list"></div>
+        <div class="pager" id="pager"></div>
+      </div>
+
+      <div class="card">
+        <div class="side">
+          <div class="stat">
+            <h3>How it works</h3>
+            <p>
+              ✅ 共用清單：從遠端 <span class="kbd">spots.json</span> 讀取（所有人一致）<br/>
+              ✅ 收藏：每個人各自存在瀏覽器（localStorage）<br/>
+              ✅ Add spot：預設是「你自己私人的」本機新增（不會回寫到遠端）
+            </p>
+          </div>
+
+          <div class="stat">
+            <h3>Legal note</h3>
+            <p>
+              這個模板只整理「合法」的夜騎/夜景/街拍/散步資訊。請遵守場域規範、注意安全與音量、垃圾帶走。
+            </p>
+          </div>
+
+          <div class="stat">
+            <h3>Remote JSON</h3>
+            <p>
+              你只要更新遠端 <span class="kbd">spots.json</span>（commit），大家就會看到最新版。<br/>
+              如果你未來想「讓所有人新增後也能同步」，那就需要後端（例如 Supabase/Firebase）。
+            </p>
+          </div>
+
+          <div class="stat">
+            <h3>Shortcuts</h3>
+            <p>
+              <span class="kbd">/</span> 搜尋 · <span class="kbd">Esc</span> 清空/關閉<br/>
+              <span class="kbd">F</span> 收藏模式 · <span class="kbd">1..9</span> 跳頁
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      你要再更硬核：雨天模式 / 地圖內嵌 / 城市切換 / tags 統一字典，我都可以繼續幫你升級。
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modalHead">
+        <h2 id="modalTitle">ADD SPOT</h2>
+        <button class="miniBtn" id="btnClose">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="formGrid">
+          <input id="m_name" placeholder="Name (e.g., 洲美橋下極簡夜線)" />
+          <input id="m_district" placeholder="District (e.g., 士林區)" />
+          <input id="m_tags" placeholder="Tags (comma) (e.g., River, Bike, Industrial)" />
+          <input id="m_best" placeholder="Best time (e.g., 21:00–01:00)" />
+          <input id="m_lat" placeholder="Lat (optional)" />
+          <input id="m_lng" placeholder="Lng (optional)" />
+        </div>
+        <div style="margin-top:10px">
+          <textarea id="m_notes" placeholder="Notes / vibe / how to enjoy (legal activities only)"></textarea>
+        </div>
+        <div style="margin-top:10px">
+          <input id="m_link" placeholder="Link (optional) — e.g., IG / article / place page" />
+        </div>
+      </div>
+      <div class="modalFoot">
+        <button class="btn secondary" id="btnCancel">Cancel</button>
+        <button class="btn" id="btnSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // =============================
+    // Remote JSON config
+    // 把 spots.json 放在同一個資料夾就用 "./spots.json"
+    // 如果你放別的地方，改成完整 URL
+    // =============================
+    const REMOTE_SPOTS_URL = "./spots.json";
+
+    // ---------- Storage keys ----------
+    const KEY_CACHE_SPOTS = "afterdark_cache_spots_v2"; // remote cache
+    const KEY_USER_SPOTS  = "afterdark_user_spots_v2";  // personal additions
+    const KEY_FAVS        = "afterdark_favs_v1";
+
+    const PAGE_SIZE = 10;
+
+    // ---------- Fallback seed (only used if no cache + remote fails) ----------
+    const fallbackSeed = [
+      { id:"fallback-001", name:"大稻埕碼頭夜風", district:"大同區", tags:["River","Night view","Walk"], vibe:"霓虹反射＋河風，適合散步放空", bestTime:"20:30–01:00", notes:"長曝光抓反光；人多時走到河岸邊緣段更安靜。" }
+    ];
+
+    // ---------- Load / Save ----------
+    function loadJSON(key, fallback){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return fallback;
+        return JSON.parse(raw);
+      }catch(e){ return fallback; }
+    }
+    function saveJSON(key, val){
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    function loadCacheSpots(){
+      const arr = loadJSON(KEY_CACHE_SPOTS, null);
+      return Array.isArray(arr) ? arr : null;
+    }
+    function saveCacheSpots(spots){ saveJSON(KEY_CACHE_SPOTS, spots); }
+
+    function loadUserSpots(){
+      const arr = loadJSON(KEY_USER_SPOTS, []);
+      return Array.isArray(arr) ? arr : [];
+    }
+    function saveUserSpots(spots){ saveJSON(KEY_USER_SPOTS, spots); }
+
+    function loadFavs(){
+      const arr = loadJSON(KEY_FAVS, []);
+      return new Set(Array.isArray(arr) ? arr : []);
+    }
+    function saveFavs(favsSet){ saveJSON(KEY_FAVS, [...favsSet]); }
+
+    // ---------- State ----------
+    let remoteSpots = [];      // shared list
+    let userSpots = [];        // personal additions
+    let spots = [];            // merged
+    let favs = loadFavs();
+    let onlyFavs = false;
+    let page = 1;
+
+    // ---------- UI elements ----------
+    const elList = document.getElementById("list");
+    const elPager = document.getElementById("pager");
+    const elQ = document.getElementById("q");
+    const elDistrict = document.getElementById("district");
+    const elTag = document.getElementById("tag");
+    const elCount = document.getElementById("count");
+    const elPageInfo = document.getElementById("pageInfo");
+
+    const modalBack = document.getElementById("modalBack");
+    const btnAdd = document.getElementById("btnAdd");
+    const btnClose = document.getElementById("btnClose");
+    const btnCancel = document.getElementById("btnCancel");
+    const btnSave = document.getElementById("btnSave");
+
+    const btnClear = document.getElementById("btnClear");
+    const btnExport = document.getElementById("btnExport");
+    const btnImport = document.getElementById("btnImport");
+    const btnSync = document.getElementById("btnSync");
+
+    const toast = document.getElementById("toast");
+
+    // Modal inputs
+    const m_name = document.getElementById("m_name");
+    const m_district = document.getElementById("m_district");
+    const m_tags = document.getElementById("m_tags");
+    const m_best = document.getElementById("m_best");
+    const m_lat = document.getElementById("m_lat");
+    const m_lng = document.getElementById("m_lng");
+    const m_notes = document.getElementById("m_notes");
+    const m_link = document.getElementById("m_link");
+
+    // ---------- Helpers ----------
+    const uniq = (arr)=> [...new Set(arr)].filter(Boolean);
+    function norm(s){ return (s||"").toString().trim().toLowerCase(); }
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.style.display = "block";
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=> toast.style.display="none", 1800);
+    }
+
+    function escapeHtml(str){
+      return (str||"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function normalizeSpot(s, i){
+      const id = (s && s.id) ? String(s.id) : `spot-${i}-${crypto.randomUUID()}`;
+      return {
+        id,
+        name: s?.name || "Untitled",
+        district: s?.district || "",
+        tags: Array.isArray(s?.tags) ? s.tags : [],
+        vibe: s?.vibe || "",
+        bestTime: s?.bestTime || "",
+        notes: s?.notes || "",
+        lat: (typeof s?.lat==="number") ? s.lat : undefined,
+        lng: (typeof s?.lng==="number") ? s.lng : undefined,
+        link: s?.link || ""
+      };
+    }
+
+    function mergeSpots(remoteArr, userArr){
+      const map = new Map();
+      (remoteArr||[]).forEach((s,i)=> map.set(normalizeSpot(s,i).id, normalizeSpot(s,i)));
+      (userArr||[]).forEach((s,i)=> {
+        const ns = normalizeSpot(s, 10000+i);
+        map.set(ns.id, ns);
+      });
+      return [...map.values()];
+    }
+
+    function openMap(spot){
+      if(typeof spot.lat === "number" && typeof spot.lng === "number"){
+        const q = encodeURIComponent(`${spot.lat},${spot.lng} (${spot.name})`);
+        window.open(`https://www.google.com/maps?q=${q}`, "_blank", "noopener");
+      }else{
+        const q = encodeURIComponent(`${spot.name} ${spot.district || "台北"}`);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, "_blank", "noopener");
+      }
+    }
+
+    function buildFilters(){
+      const districts = uniq(spots.map(s=>s.district)).sort((a,b)=>a.localeCompare(b, "zh-Hant"));
+      const tags = uniq(spots.flatMap(s=>s.tags || [])).sort((a,b)=>a.localeCompare(b));
+      elDistrict.innerHTML = `<option value="">All districts</option>` + districts.map(d=>`<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      elTag.innerHTML = `<option value="">All tags</option>` + tags.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join("");
+    }
+
+    function matches(spot, q, district, tag){
+      if(onlyFavs && !favs.has(spot.id)) return false;
+      if(district && spot.district !== district) return false;
+      if(tag && !(spot.tags||[]).includes(tag)) return false;
+
+      if(!q) return true;
+      const hay = [
+        spot.name, spot.district, (spot.tags||[]).join(" "),
+        spot.vibe, spot.bestTime, spot.notes
+      ].map(norm).join(" | ");
+      return hay.includes(norm(q));
+    }
+
+    function tagClass(t){
+      const n = norm(t);
+      if(n.includes("night") || n.includes("photo") || n.includes("neon")) return "p";
+      if(n.includes("quiet") || n.includes("walk") || n.includes("river") || n.includes("bike") || n.includes("minimal")) return "g";
+      if(n.includes("cafe") || n.includes("bar") || n.includes("hot") || n.includes("rainy")) return "w";
+      if(n.includes("industrial")) return "p";
+      return "";
+    }
+
+    function resetToFirstPage(){ page = 1; }
+
+    function renderPager(totalPages){
+      if(totalPages <= 1){
+        elPager.innerHTML = "";
+        return;
+      }
+
+      const mkBtn = (label, targetPage, isOn=false, disabled=false) => {
+        return `<button class="pageBtn ${isOn ? "on":""}" data-page="${targetPage}" ${disabled?"disabled":""}>${label}</button>`;
+      };
+
+      let html = "";
+      html += mkBtn("‹", "prev", false, page<=1);
+
+      // show all pages (你的數量不會太誇張；需要再做省略也行)
+      for(let p=1; p<=totalPages; p++){
+        html += mkBtn(String(p), String(p), p===page, false);
+      }
+
+      html += mkBtn("›", "next", false, page>=totalPages);
+
+      elPager.innerHTML = html;
+
+      elPager.querySelectorAll("button[data-page]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const v = btn.getAttribute("data-page");
+          if(v === "prev") page = Math.max(1, page-1);
+          else if(v === "next") page = Math.min(totalPages, page+1);
+          else page = Number(v) || 1;
+          render();
+          window.scrollTo({top:0, behavior:"smooth"});
+        });
+      });
+    }
+
+    function render(){
+      const q = elQ.value.trim();
+      const district = elDistrict.value;
+      const tag = elTag.value;
+
+      const filtered = spots
+        .filter(s => matches(s, q, district, tag))
+        .sort((a,b)=>{
+          const af = favs.has(a.id) ? 1 : 0;
+          const bf = favs.has(b.id) ? 1 : 0;
+          if(af !== bf) return bf - af;
+          return a.name.localeCompare(b.name, "zh-Hant");
+        });
+
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      page = Math.min(Math.max(1, page), totalPages);
+
+      elCount.textContent = String(total);
+      elPageInfo.textContent = `${page}/${totalPages}`;
+
+      const start = (page-1) * PAGE_SIZE;
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+      elList.innerHTML = pageItems.map(s=>{
+        const isFav = favs.has(s.id);
+        const tags = (s.tags||[]).map(t=>`<span class="tag ${tagClass(t)}">${escapeHtml(t)}</span>`).join("");
+        const meta = [
+          s.district ? `📍 ${escapeHtml(s.district)}` : "",
+          s.bestTime ? `⏱ ${escapeHtml(s.bestTime)}` : ""
+        ].filter(Boolean).join(" · ");
+
+        return `
+          <div class="spot">
+            <div class="spotHead">
+              <div>
+                <h3 class="spotTitle">${escapeHtml(s.name)}</h3>
+                <div class="spotMeta">
+                  ${meta ? `<span>${meta}</span>` : ""}
+                  ${tags}
+                </div>
+              </div>
+            </div>
+            <div class="spotBody">
+              <div><b style="color:rgba(232,232,240,.95)">Vibe：</b>${escapeHtml(s.vibe || "—")}</div>
+              ${s.notes ? `<div style="margin-top:6px; color:rgba(167,167,194,.95)">${escapeHtml(s.notes)}</div>` : ""}
+              ${s.link ? `<div style="margin-top:8px; font-size:12px; color:rgba(150,255,170,.92)">↗ <a href="${escapeHtml(s.link)}" target="_blank" rel="noopener" style="text-decoration:none; border-bottom:1px solid rgba(57,255,20,.35)">More</a></div>` : ""}
+            </div>
+            <div class="spotActions">
+              <div class="miniRow">
+                <button class="miniBtn" data-act="map" data-id="${s.id}">Open map</button>
+                <button class="miniBtn" data-act="copy" data-id="${s.id}">Copy</button>
+              </div>
+              <button class="miniBtn heart ${isFav ? "on" : ""}" data-act="fav" data-id="${s.id}">
+                ${isFav ? "❤ Saved" : "♡ Save"}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      elList.querySelectorAll("button[data-act]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-id");
+          const act = btn.getAttribute("data-act");
+          const spot = spots.find(s=>s.id===id);
+          if(!spot) return;
+
+          if(act==="map") openMap(spot);
+          if(act==="fav"){
+            if(favs.has(id)) favs.delete(id); else favs.add(id);
+            saveFavs(favs);
+            render();
+          }
+          if(act==="copy"){
+            const line = `${spot.name}｜${spot.district || "台北"}｜${(spot.tags||[]).join(", ")}｜${spot.bestTime || ""}`;
+            navigator.clipboard?.writeText(line);
+            showToast("Copied ✨");
+          }
+        });
+      });
+
+      renderPager(totalPages);
+    }
+
+    function openModal(){
+      modalBack.style.display = "flex";
+      setTimeout(()=> m_name.focus(), 10);
+    }
+    function closeModal(){
+      modalBack.style.display = "none";
+      [m_name,m_district,m_tags,m_best,m_lat,m_lng,m_notes,m_link].forEach(el=> el.value="");
+    }
+
+    function addSpotFromModal(){
+      const name = m_name.value.trim();
+      if(!name){ showToast("Name required"); m_name.focus(); return; }
+
+      const district = m_district.value.trim();
+      const tags = m_tags.value.split(",").map(s=>s.trim()).filter(Boolean);
+      const bestTime = m_best.value.trim();
+      const notes = m_notes.value.trim();
+      const link = m_link.value.trim();
+
+      const lat = m_lat.value.trim() ? Number(m_lat.value.trim()) : undefined;
+      const lng = m_lng.value.trim() ? Number(m_lng.value.trim()) : undefined;
+
+      const newSpot = {
+        id: `user-${crypto.randomUUID()}`,
+        name,
+        district,
+        tags,
+        vibe: "Personal entry",
+        bestTime,
+        notes,
+        link,
+        lat: Number.isFinite(lat) ? lat : undefined,
+        lng: Number.isFinite(lng) ? lng : undefined
+      };
+
+      userSpots.unshift(newSpot);
+      saveUserSpots(userSpots);
+
+      spots = mergeSpots(remoteSpots, userSpots);
+      buildFilters();
+
+      resetToFirstPage();
+      render();
+      closeModal();
+      showToast("Saved ✓ (personal)");
+    }
+
+    function clearFilters(){
+      elQ.value = "";
+      elDistrict.value = "";
+      elTag.value = "";
+      onlyFavs = false;
+      resetToFirstPage();
+      render();
+      showToast("Cleared");
+    }
+
+    function exportJSON(){
+      const payload = {
+        spotsRemote: remoteSpots,
+        spotsUser: userSpots,
+        favs: [...favs]
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "taipei-afterdark-export.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Exported");
+    }
+
+    function importJSON(){
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/json";
+      input.onchange = () => {
+        const file = input.files?.[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try{
+            const parsed = JSON.parse(reader.result);
+
+            // 只把匯入當作「個人清單」(不覆蓋遠端)
+            const imported = parsed?.spotsUser || parsed?.spots || [];
+            if(Array.isArray(imported)){
+              userSpots = imported.map((s,i)=> normalizeSpot(s, 20000+i));
+              saveUserSpots(userSpots);
+            }
+
+            if(Array.isArray(parsed?.favs)){
+              favs = new Set(parsed.favs);
+              saveFavs(favs);
+            }
+
+            spots = mergeSpots(remoteSpots, userSpots);
+            buildFilters();
+            resetToFirstPage();
+            render();
+            showToast("Imported ✓");
+          }catch(e){
+            showToast("Import failed");
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    async function fetchRemoteSpots(){
+      if(!REMOTE_SPOTS_URL) return null;
+
+      const bust = (REMOTE_SPOTS_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
+      const res = await fetch(REMOTE_SPOTS_URL + bust, { cache: "no-store" });
+      if(!res.ok) throw new Error("Remote fetch failed");
+      const data = await res.json();
+
+      const arr = Array.isArray(data) ? data : (Array.isArray(data?.spots) ? data.spots : null);
+      if(!Array.isArray(arr)) throw new Error("Invalid remote JSON shape");
+      return arr.map((s,i)=> normalizeSpot(s,i));
+    }
+
+    async function syncRemote(){
+      try{
+        const arr = await fetchRemoteSpots();
+        if(!arr) return;
+
+        remoteSpots = arr;
+        saveCacheSpots(remoteSpots);
+
+        spots = mergeSpots(remoteSpots, userSpots);
+        buildFilters();
+        resetToFirstPage();
+        render();
+        showToast("Synced from remote ✓");
+      }catch(e){
+        showToast("Remote offline — using cache");
+      }
+    }
+
+    // ---------- Events ----------
+    elQ.addEventListener("input", ()=>{ resetToFirstPage(); render(); });
+    elDistrict.addEventListener("change", ()=>{ resetToFirstPage(); render(); });
+    elTag.addEventListener("change", ()=>{ resetToFirstPage(); render(); });
+
+    btnAdd.addEventListener("click", openModal);
+    btnClose.addEventListener("click", closeModal);
+    btnCancel.addEventListener("click", closeModal);
+    btnSave.addEventListener("click", addSpotFromModal);
+
+    modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
+
+    btnClear.addEventListener("click", clearFilters);
+    btnExport.addEventListener("click", exportJSON);
+    btnImport.addEventListener("click", importJSON);
+    btnSync.addEventListener("click", syncRemote);
+
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "/"){ e.preventDefault(); elQ.focus(); }
+      if(e.key === "Escape"){
+        if(modalBack.style.display === "flex") closeModal();
+        else clearFilters();
+      }
+      if(e.key.toLowerCase() === "f"){
+        onlyFavs = !onlyFavs;
+        resetToFirstPage();
+        render();
+        showToast(onlyFavs ? "Favorites only" : "All spots");
+      }
+      // number keys jump pages (1..9)
+      if(/^[1-9]$/.test(e.key)){
+        const n = Number(e.key);
+        page = n;
+        render();
+      }
+    });
+
+    // ---------- Init ----------
+    (function boot(){
+      userSpots = loadUserSpots();
+
+      // load cache first for instant render
+      const cached = loadCacheSpots();
+      remoteSpots = Array.isArray(cached) && cached.length ? cached : fallbackSeed;
+
+      spots = mergeSpots(remoteSpots, userSpots);
+      buildFilters();
+      render();
+
+      // then try remote in background
+      syncRemote();
+    })();
+  </script>
+</body>
+</html>
