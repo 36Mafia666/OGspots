@@ -592,7 +592,57 @@
 
     // ---------- Fallback seed (only used if no cache + remote fails) ----------
     const fallbackSeed = [
-      { id:"fallback-001", name:"大稻埕碼頭夜風", district:"大同區", tags:["River","Night view","Walk"], vibe:"霓虹反射＋河風，適合散步放空", bestTime:"20:30–01:00", notes:"長曝光抓反光；人多時走到河岸邊緣段更安靜。" }
+      { id:"fallback-001", name:"大稻埕碼頭夜風", district:"大同區", tags:["River","Night view","Walk"], vibe:"霓虹反射＋河風，適合散步放空", bestTime:"20:30–01:00", notes:"長曝光抓反光；人多時走到河岸邊緣段更安靜。" }, { "id":"ad-002","name":"象山（較短段觀景平台）","district":"信義區","tags":["Night view","Hike","Photo"],"vibe":"城市心臟上方的光海","bestTime":"19:00–23:30","notes":"帶水、穿好走的鞋；避開週末尖峰更chill。" },
+    { "id":"ad-003","name":"寶藏巖 × 河堤邊","district":"中正區","tags":["Walk","Quiet","Art"],"vibe":"廢墟藝術聚落＋河堤夜散步","bestTime":"18:30–22:30","notes":"白天逛聚落，晚上去河堤吹風；拍牆面材質＋昏黃燈很有味道。" },
+    { "id":"ad-004","name":"北投圖書館周邊夜步（溫泉區氛圍）","district":"北投區","tags":["Quiet","Walk","Hot spring"],"vibe":"蒸氣感＋暗光路燈，像進入另一個區域","bestTime":"19:00–22:00","notes":"慢走、看蒸氣和樹影；注意各區域開放時間。" },
+    { "id":"ad-005","name":"自來水園區周邊河岸路段","district":"中正區","tags":["River","Bike","Walk"],"vibe":"黑水面＋橋光，適合夜騎/夜走","bestTime":"20:00–00:30","notes":"YouBike 小圈巡航；拍橋底反光很賽博。" },
+    { "id":"ad-006","name":"松山文創周邊（夜裡的空氣感）","district":"信義區","tags":["Walk","Photo","City"],"vibe":"工業遺跡＋夜光","bestTime":"19:30–23:00","notes":"不用進園區，外圍街景也好拍；找黑牆＋霓虹對比。" },
+    { "id":"ad-007","name":"天母安靜坡道（住宅區夜景散步）","district":"士林區","tags":["Quiet","Walk","City"],"vibe":"低密度住宅區＋昏黃燈光，像電影","bestTime":"20:00–23:30","notes":"慢走聊天路線；注意音量、尊重住戶。" },
+    { "id":"ad-008","name":"南港老工業街景（攝影取向）","district":"南港區","tags":["Photo","Industrial","City"],"vibe":"鋼鐵、招牌、空曠感：純 cyber","bestTime":"21:00–01:00","notes":"以街拍/建築幾何為主；注意安全與私人區域。" },
+    { "id":"ad-009","name":"彩虹橋夜光段（饒河旁）","district":"松山區","tags":["Bridge","Night view","Photo"],"vibe":"霓虹線條＋河面反光","bestTime":"20:30–00:30","notes":"橋上風大舒服；用欄杆當前景做透視很穩。" },
+    { "id":"ad-010","name":"迎風河濱公園（夜騎直線）","district":"松山區","tags":["Bike","River","Quiet"],"vibe":"長直線路燈＋空曠感：夜騎天堂","bestTime":"21:00–01:00","notes":"避開假日；路口減速、注意行人。" },
+    { "id":"ad-011","name":"大佳河濱公園（橋下光影）","district":"中山區","tags":["River","Photo","Walk"],"vibe":"橋底光影像進入地下城市","bestTime":"20:00–00:00","notes":"拍橋墩重複結構很賽博；別進施工區。" },
+    { "id":"ad-012","name":"美堤河濱公園（夜風草地段）","district":"內湖區","tags":["River","Quiet","Walk"],"vibe":"草地＋河風＋遠方樓光","bestTime":"19:30–23:30","notes":"慢走聽歌，垃圾帶走。" },
+    { "id":"ad-013","name":"關渡碼頭河堤（遠景＋風）","district":"北投區","tags":["River","Quiet","Night view"],"vibe":"郊區感的夜：風大、視野寬","bestTime":"19:30–23:00","notes":"天氣好看遠方燈火；注意保暖。" },
+    { "id":"ad-014","name":"社子島堤防（夜騎長線）","district":"士林區","tags":["Bike","Quiet","River"],"vibe":"黑路＋路燈節奏感","bestTime":"20:30–01:00","notes":"暗處減速；結伴或保持警覺更好。" },
+    { "id":"ad-015","name":"福州山公園（低調夜景點）","district":"大安區","tags":["Night view","Walk","Quiet"],"vibe":"乾淨、安靜的城市俯瞰點","bestTime":"19:00–23:00","notes":"比熱門景點更低刺激；注意別打擾附近住戶。" },
+    { "id":"ad-016","name":"大湖公園（橋與湖面反光）","district":"內湖區","tags":["Photo","Quiet","Park"],"vibe":"倒影＋橋線條","bestTime":"19:30–22:30","notes":"找無風角度拍倒影；避免閃光影響他人。" },
+    { "id":"ad-017","name":"南港公園（夜裡的森林感）","district":"南港區","tags":["Park","Quiet","Walk"],"vibe":"像城市裡的黑森林","bestTime":"19:00–22:00","notes":"走主要路徑；注意園區規範與時間。" },
+    { "id":"ad-018","name":"中正紀念堂外圍廊道（夜光空間）","district":"中正區","tags":["Walk","Photo","City"],"vibe":"對稱廊道＋暗光，科幻感","bestTime":"19:00–22:30","notes":"走外圍更chill；雨天也好拍。" },
+    { "id":"ad-019","name":"台大椰林／舟山路夜段（校園光影）","district":"大安區","tags":["Walk","Quiet","Photo"],"vibe":"樹列＋路燈，乾淨安靜","bestTime":"20:00–23:00","notes":"尊重校園規範；適合散步聊天。" },
+    { "id":"ad-020","name":"指南宮（夜景＋山城感）","district":"文山區","tags":["Night view","Quiet","Walk"],"vibe":"山城燈火＋廟宇輪廓","bestTime":"18:30–22:00","notes":"尊重場所；以散步看夜景為主。" },
+
+    /* ====== 下面是我新增的 30 個：冷門河濱 / 非熱門夜景 / 工業街拍 ====== */
+    { "id":"ad-101","name":"成美右岸河濱（內湖段）夜線","district":"內湖區","tags":["River","Bike","Industrial","Neon"],"vibe":"河岸＋高架冷光，騎起來像跑在夜城邊緣","bestTime":"21:00–01:00","notes":"適合直線巡航＋橋墩幾何街拍；注意路口與行人。" },
+    { "id":"ad-102","name":"潭美公園外側河岸（暗光折返段）","district":"內湖區","tags":["River","Bike","Quiet","Minimal"],"vibe":"低光、風、空曠，心會變很安靜","bestTime":"20:30–00:30","notes":"適合耳機慢騎；雨後路面可能濕滑。" },
+    { "id":"ad-103","name":"新生高架橋下（濱江街一帶）光影長廊","district":"中山區","tags":["Industrial","Photo","Neon"],"vibe":"橋下陰影＋車流光軌：硬派工業賽博","bestTime":"20:00–00:30","notes":"用欄杆/柱列當前景；注意安全與交通。" },
+    { "id":"ad-104","name":"大直橋下基隆河步道（橋墩幾何）","district":"中山區","tags":["River","Photo","Industrial"],"vibe":"橋墩重複結構＋水面反光","bestTime":"20:30–00:30","notes":"拍幾何線條超穩；避免進入封鎖區。" },
+    { "id":"ad-105","name":"內溝溪自然步道入口（夜初短走）","district":"內湖區","tags":["Walk","Quiet","Nature","Rainy"],"vibe":"樹影＋微光，像城市裡的小副本","bestTime":"18:30–21:00","notes":"只走前段與主路徑；夜間以安全為先。" },
+    { "id":"ad-106","name":"內湖科技園區（瑞光路夜間線條）","district":"內湖區","tags":["Industrial","Neon","Photo","City"],"vibe":"玻璃/金屬立面反光，冷色系街拍聖地","bestTime":"20:00–23:30","notes":"適合雨天反光；注意別打擾大樓出入口。" },
+    { "id":"ad-107","name":"南港經貿園區高架下（冷光街景）","district":"南港區","tags":["Industrial","Neon","Photo"],"vibe":"新街廓＋高架陰影，畫面很“未來商業區”","bestTime":"20:00–23:30","notes":"找路燈與玻璃反射；以公共區域拍攝為主。" },
+    { "id":"ad-108","name":"山豬窟周邊高點（遠景視角）","district":"南港區","tags":["Night view","Quiet","Photo"],"vibe":"不是熱門點的遠景：更安靜、更像觀察者視角","bestTime":"19:00–22:00","notes":"以安全可達的公共步道/視角為主；不要走無照明小徑。" },
+    { "id":"ad-109","name":"松山機場外圍圍籬道（飛機燈＋霓虹）","district":"松山區","tags":["Photo","Neon","City"],"vibe":"飛機起降燈＋城市霓虹：很有電影感","bestTime":"20:00–22:30","notes":"站定拍光軌；注意交通與停留規範。" },
+    { "id":"ad-110","name":"洲美橋下堤外步道（極簡黑路）","district":"士林區","tags":["River","Bike","Minimal","Industrial"],"vibe":"極簡暗線＋橋下低光，很像潛行任務","bestTime":"21:00–01:00","notes":"暗處減速；雨天更滑，安全第一。" },
+    { "id":"ad-111","name":"百齡左岸河濱（福港街一帶）夜騎段","district":"士林區","tags":["River","Bike","Quiet"],"vibe":"河風＋路燈節拍，長線舒服","bestTime":"20:30–00:30","notes":"適合穩定配速；注意夜間行人與狗。" },
+    { "id":"ad-112","name":"社子大橋下（堤外空曠段）","district":"士林區","tags":["River","Bike","Industrial"],"vibe":"橋影巨大、空曠感強，超硬派","bestTime":"21:00–01:00","notes":"以主線道為主；避免進入照明不足區。" },
+    { "id":"ad-113","name":"延平河濱公園北段（風大暗線）","district":"大同區","tags":["River","Bike","Quiet"],"vibe":"淡水河風＋城市背光，低調而乾淨","bestTime":"20:00–23:30","notes":"適合安靜夜騎；留意河濱交會口。" },
+    { "id":"ad-114","name":"忠孝橋下淡水河段（鐵構/工業感）","district":"大同區","tags":["Industrial","Photo","River"],"vibe":"鐵構＋陰影＋水面：老派工業賽博","bestTime":"20:30–00:30","notes":"拍橋梁細節很有味道；注意安全區域。" },
+    { "id":"ad-115","name":"中興橋下步道（車流光軌視角）","district":"萬華區","tags":["Photo","Industrial","City"],"vibe":"車流光軌＋橋下暗部，對比很爽","bestTime":"20:30–00:30","notes":"找穩定欄杆當支撐；注意交通與停留。" },
+    { "id":"ad-116","name":"華中河濱公園南段（橋下光影）","district":"萬華區","tags":["River","Industrial","Photo"],"vibe":"橋下巨柱＋冷光，街拍很兇","bestTime":"21:00–01:00","notes":"拍幾何＋陰影；避免偏僻無照明段。" },
+    { "id":"ad-117","name":"萬板大橋下（台北側散步段）","district":"萬華區","tags":["River","Walk","Industrial"],"vibe":"橋影＋河面黑亮，像走在城市暗面","bestTime":"20:00–23:30","notes":"慢走拍反光；注意個人物品與周邊環境。" },
+    { "id":"ad-118","name":"景美溪河岸（木柵段）夜騎線","district":"文山區","tags":["River","Bike","Quiet"],"vibe":"溪岸更生活、更安靜的夜線","bestTime":"19:30–22:30","notes":"適合短距離巡航；避免太晚走到無人段。" },
+    { "id":"ad-119","name":"仙跡岩步道口前段（夜初）","district":"文山區","tags":["Hike","Night view","Walk"],"vibe":"不熱門但有視角：城市邊緣夜光","bestTime":"18:30–21:00","notes":"只走前段主線；結伴更安心。" },
+    { "id":"ad-120","name":"興隆公園高處步道（低調城市遠景）","district":"文山區","tags":["Night view","Walk","Quiet"],"vibe":"住宅區的安靜高點：不吵不擠","bestTime":"19:00–22:00","notes":"以散步放空為主；注意住區音量。" },
+    { "id":"ad-121","name":"軍艦岩前段觀景（不走深）","district":"北投區","tags":["Hike","Night view","Rock"],"vibe":"岩面＋遠景：硬派夜景角","bestTime":"18:00–21:00","notes":"傍晚到夜初最佳；夜間別走無照明小徑。" },
+    { "id":"ad-122","name":"貴子坑親山步道入口（夜初短走）","district":"北投區","tags":["Hike","Quiet","Nature"],"vibe":"黑森林感的入口段，安靜且降噪","bestTime":"18:30–21:00","notes":"只走前段；帶小手電更安全。" },
+    { "id":"ad-123","name":"關渡自然公園外圍堤岸（大風遠景）","district":"北投區","tags":["River","Quiet","Night view"],"vibe":"大風、寬視野、遠燈火","bestTime":"19:00–22:30","notes":"適合冷靜放空；注意保暖與場域規範。" },
+    { "id":"ad-124","name":"關渡宮周邊河堤（廟宇輪廓＋河風）","district":"北投區","tags":["River","Walk","Night view"],"vibe":"人文輪廓＋夜風，像進入另一層台北","bestTime":"19:00–22:30","notes":"尊重場所；以散步拍攝為主。" },
+    { "id":"ad-125","name":"福和橋台北端河堤（夜騎折返點）","district":"中正區","tags":["River","Bike","City"],"vibe":"河堤折返很順，城市光在背後推你","bestTime":"20:30–00:30","notes":"適合當夜騎“回程儀式點”；注意橋下交會口。" },
+    { "id":"ad-126","name":"公館周邊河濱（橋下陰影段）","district":"中正區","tags":["River","Walk","Industrial"],"vibe":"橋下陰影＋水面反光，畫面很乾","bestTime":"20:00–23:30","notes":"走主要動線；避免偏僻岔路。" },
+    { "id":"ad-127","name":"外雙溪河畔步道（至善路一帶夜初）","district":"士林區","tags":["River","Walk","Quiet"],"vibe":"溪畔更生活、更低調的夜走","bestTime":"19:00–22:00","notes":"只走亮的段；注意腳下與周邊環境。" },
+    { "id":"ad-128","name":"劍南山步道口短段（夜景邊緣）","district":"中山區","tags":["Hike","Night view","Walk"],"vibe":"不是熱門觀景點的“邊緣視角”","bestTime":"18:30–21:00","notes":"短段即可；太晚不走深。" },
+    { "id":"ad-129","name":"四獸山系（虎山前段）夜初","district":"信義區","tags":["Walk","Hike","Quiet"],"vibe":"樹影＋微光，城市像在遠處呼吸","bestTime":"18:30–21:00","notes":"走主線前段；結伴更好。" },
+    { "id":"ad-130","name":"大直/濱江一帶堤外（夜拍冷光段）","district":"中山區","tags":["River","Photo","Neon"],"vibe":"冷光路燈＋黑水面，極簡賽博","bestTime":"20:30–00:30","notes":"找反射角度拍水面；注意安全。" }
     ];
 
     // ---------- Load / Save ----------
