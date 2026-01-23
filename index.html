@@ -983,17 +983,36 @@
     }
 
     async function fetchRemoteSpots(){
-      if(!REMOTE_SPOTS_URL) return null;
+  if(!REMOTE_SPOTS_URL) return null;
 
-      const bust = (REMOTE_SPOTS_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
-      const res = await fetch(REMOTE_SPOTS_URL + bust, { cache: "no-store" });
-      if(!res.ok) throw new Error("Remote fetch failed");
-      const data = await res.json();
+  const bust = (REMOTE_SPOTS_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
+  const url = REMOTE_SPOTS_URL + bust;
 
-      const arr = Array.isArray(data) ? data : (Array.isArray(data?.spots) ? data.spots : null);
-      if(!Array.isArray(arr)) throw new Error("Invalid remote JSON shape");
-      return arr.map((s,i)=> normalizeSpot(s,i));
-    }
+  const res = await fetch(url, { cache: "no-store" });
+  const text = await res.text();
+
+  // --- 防呆：如果抓到的是 HTML（通常是 404 頁），立刻報錯 ---
+  const head = text.trim().slice(0, 40).toLowerCase();
+  if(head.startsWith("<!doctype") || head.startsWith("<html") || head.includes("<head")){
+    throw new Error("Got HTML instead of JSON (wrong path / Pages not updated)");
+  }
+
+  // --- 防呆：去掉 BOM（有些環境會害 res.json() 失敗） ---
+  const clean = text.replace(/^\uFEFF/, "");
+
+  let data;
+  try{
+    data = JSON.parse(clean);
+  }catch(e){
+    console.error("spots.json raw text (first 200 chars):", clean.slice(0,200));
+    throw new Error("JSON.parse failed (spots.json is not valid JSON)");
+  }
+
+  const arr = Array.isArray(data) ? data : (Array.isArray(data?.spots) ? data.spots : null);
+  if(!Array.isArray(arr)) throw new Error("Invalid remote JSON shape");
+
+  return arr.map((s,i)=> normalizeSpot(s,i));
+}
 
     async function syncRemote(){
       try{
