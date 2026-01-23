@@ -581,7 +581,7 @@
     // 把 spots.json 放在同一個資料夾就用 "./spots.json"
     // 如果你放別的地方，改成完整 URL
     // =============================
-    const REMOTE_SPOTS_URL = "./spots.json";
+    const REMOTE_SPOTS_URL = new URL("./spots.json", location.href).toString();
 
     // ---------- Storage keys ----------
     const KEY_CACHE_SPOTS = "afterdark_cache_spots_v2"; // remote cache
